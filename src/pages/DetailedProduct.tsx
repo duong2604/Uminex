@@ -53,7 +53,7 @@ const DetailedProduct = () => {
     }
   };
 
-  const hanldeClickCartBtn = () => {
+  const handleClickCartBtn = () => {
     const foundedItem = cartItems.find((item: any) => item.id === product?.id);
     if (!foundedItem) {
       dispatch(addToCart({ ...product }));
@@ -65,15 +65,23 @@ const DetailedProduct = () => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container p={4}>
       <Grid xs={12} md={6}>
-        <img src={product?.thumbnail} alt="" />
+        <img src={product?.thumbnail} alt="" className="hover:cursor-pointer"/>
+        <div className="flex mt-2 gap-1">
+          {product && product.images && product.images.map((image, index)=>{
+            return  <div key={index} className="w-[100px] border p-2 hover:cursor-pointer hover:border-blue-500">
+              <img src={image} alt=""  className="w-full object-cover"/>
+            </div>
+          })}
+          <img src="" alt="" />
+        </div>
       </Grid>
       <Grid xs={12} md={6}>
         <Stack spacing={2} className="px-5">
           <div>
-            <h3>{product?.title}</h3>
-            <p>
+            <h3 className="font-bold text-3xl capitalize my-2">{product?.title}</h3>
+            <p className="font-semibold text-gray-400">
               <Rating defaultValue={5} readOnly size="small" /> /{" "}
               {Math.round(product?.rating!)} reviews / Write a review
             </p>
@@ -81,13 +89,13 @@ const DetailedProduct = () => {
           </div>
 
           <div>
-            <p>{product?.price}</p>
-            <p>{product?.description}</p>
-            <p>
+            <p className="font-semibold text-red-500 text-2xl">$ {product?.price}</p>
+            <p className="text-xl text-gray-500">{product?.description}</p>
+            <p className="text-md text-gray-500 my-2">
               <VisibilityIcon />{" "}
               <span>15 people are viewing this right now </span>
             </p>
-            <div className="flex justify-start gap-10">
+            <div className="flex justify-start gap-10 my-2 text-gray-500 font-medium">
               <Link to={`#`} className="hover:text-[#2B38D1]">
                 <ShieldOutlinedIcon /> Shipping and Returns
               </Link>
@@ -105,7 +113,7 @@ const DetailedProduct = () => {
             </ButtonGroup>
             <button
               className="w-1/2 rounded-[30px] border bg-[#2B38D1] text-white hover:bg-red-500"
-              onClick={hanldeClickCartBtn}
+              onClick={handleClickCartBtn}
             >
               <AddShoppingCartIcon />
             </button>

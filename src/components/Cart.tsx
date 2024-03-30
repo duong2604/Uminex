@@ -31,20 +31,21 @@ const Cart = () => {
   const [confirm, setConfirm] = useState(false);
 
   const { cartItems } = useSelector((state: RootState) => state.cart);
+  console.log(cartItems)
   const dispatch = useDispatch();
 
   const handleIncreChange = (item: any) => {
-    if (item.quantity < item.countInStock) {
-      dispatch(incrementQty({ _id: item._id }));
+    if (item.quantity < item.stock) {
+      dispatch(incrementQty({ id: item.id }));
     } else {
       toast.info("Over in current stock");
     }
   };
   const handleDecreChange = (item: any) => {
     if (item.quantity > 1) {
-      dispatch(decrementQty({ _id: item._id }));
+      dispatch(decrementQty({ id: item.id }));
     } else {
-      dispatch(removeFromCart({ id: item._id }));
+      dispatch(removeFromCart({ id: item.id }));
       toast.info("Remove one product from cart");
     }
   };
@@ -65,15 +66,15 @@ const Cart = () => {
               direction={`row`}
               className="flex-wrap items-center justify-between border-b-2 p-2 sm:hidden sm:border-0"
             >
-              <Link to={`/products/${item._id}`}>
+              <Link to={`/products/${item.id}`}>
                 <img
                   className="w-[100px] object-cover sm:hidden"
-                  src={item.image}
+                  src={item.thumbnail}
                   alt=""
                 />
               </Link>
               <div className="flex flex-col gap-2 sm:hidden">
-                <p>{item.name}</p>
+                <p>{item.title}</p>
                 <p className="text-lg font-semibold text-red-500">{`$ ${item.price}`}</p>
                 <ButtonGroup aria-label="outlined primary button group">
                   <Button onClick={() => handleDecreChange(item)}>-</Button>
@@ -89,7 +90,7 @@ const Cart = () => {
               <div className="">
                 <button
                   className="hover:text-red-500"
-                  onClick={() => dispatch(removeFromCart({ id: item._id }))}
+                  onClick={() => dispatch(removeFromCart({ id: item.id }))}
                 >
                   <DeleteOutlineOutlinedIcon />
                 </button>
@@ -148,15 +149,15 @@ const Cart = () => {
                     >
                       <TableCell component="th" scope="row" align="center">
                         <div className="flex items-center gap-1">
-                          <Link to={`/products/${item._id}`}>
+                          <Link to={`/products/${item.id}`}>
                             <img
-                              src={item.image}
+                              src={item.thumbnail}
                               alt=""
                               className="w-[100px]"
                             />
                           </Link>
                           <div>
-                            <h2 className="font-semibold">{item.name}</h2>
+                            <h2 className="font-semibold">{item.title}</h2>
                             <p className="font-semibold text-[#2B38D1]">
                               {item.price}$
                             </p>
@@ -183,7 +184,7 @@ const Cart = () => {
                         <button
                           className="hover:text-red-500"
                           onClick={() =>
-                            dispatch(removeFromCart({ id: item._id }))
+                            dispatch(removeFromCart({ id: item.id }))
                           }
                         >
                           <DeleteOutlineOutlinedIcon />

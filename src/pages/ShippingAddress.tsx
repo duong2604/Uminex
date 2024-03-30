@@ -36,7 +36,8 @@ export default function ShippingAddress() {
       }),
     );
 
-    // navigate("/payment");
+    // navigate("http://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder");
+    window.location.href = "http://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder";
   };
 
   return (
